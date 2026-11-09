@@ -6,6 +6,10 @@ arcade de 16 bits hecha con HTML, CSS y JavaScript, Canvas 2D y Web Audio. Inclu
 cuentas, servidor de aplicación ni compilación.
 
 <p align="center">
+  <a href="https://crashcool.com/sonicpong/index.html"><b>▶ Jugar en línea</b></a>
+</p>
+
+<p align="center">
   <img src="docs/screenshots/menu.jpg" width="49%" alt="Menú principal de SonicPang">
   <img src="docs/screenshots/gameplay.jpg" width="49%" alt="Partida de SonicPang contra Bola Disco">
 </p>
@@ -19,7 +23,9 @@ reventada suelta una nota musical, así que mientras mejor juegas, mejor suena.
 
 ## Cómo jugar
 
-**La forma más fácil:** abre `index.html` con doble clic. No necesita instalar nada.
+**En línea:** <https://crashcool.com/sonicpong/index.html>, sin descargar nada.
+
+**Sin internet:** abre `index.html` con doble clic. No necesita instalar nada.
 
 **Con servidor local** (Python 3, recomendado para desarrollar y guardar el progreso
 en un origen estable; desactiva la caché):
