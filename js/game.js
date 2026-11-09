@@ -84,6 +84,7 @@
     this.lastTick = 99;
     this.state = 'ready';
     this.stateT = 0;
+    this.clearEmitted = false;
     this.song = L.boss ? 'boss' : SP.worldSong[this.world];
     if (!this.headless) SP.audio.playSong(this.song);
     this.emit('level', { index: i });

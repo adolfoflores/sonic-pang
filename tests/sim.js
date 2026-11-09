@@ -188,6 +188,24 @@ for (let i = 0; i < SP.LEVELS.length; i++) {
 }
 console.table(results);
 
+// Una sola partida que encadena niveles: cada nivel superado debe avisar 'cleared'
+{
+  const events = [];
+  const game = new SP.Game({ level: 0, headless: true, on: (t) => events.push(t) });
+  const chain = Math.min(3, SP.LEVELS.length - 1);
+  for (let i = 0; i < chain; i++) {
+    if (i > 0) game.loadLevel(i);
+    game.levelClear();
+    let t = 0;
+    while (t < 30 && events.filter((e) => e === 'cleared').length <= i) { game.update(DT, {}); t += DT; }
+    if (events.filter((e) => e === 'cleared').length <= i) {
+      failures++;
+      console.log('CADENA: el nivel ' + SP.levelLabel(i) + ' se quedó en "nivel superado" sin avanzar');
+      break;
+    }
+  }
+}
+
 // Modo sin fin: 6 minutos simulados
 {
   const game = new SP.Game({ mode: 'endless', headless: true });
