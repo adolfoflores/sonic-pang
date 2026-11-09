@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Sonic Pang · sprites</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>body{background:#334;margin:10px;color:#ccc;font:11px sans-serif} canvas{image-rendering:pixelated}</style>
+</head><body>
+<canvas id="c" width="1200" height="900"></canvas>
+<script src="../js/core.js?v=2.0.0"></script>
+<script src="../js/gfx.js?t=2"></script>
+<script src="../js/sprites.js?v=2.0.0"></script>
+<script>
+const c = document.getElementById('c'), ctx = c.getContext('2d');
+SP.gfx.setScale(2);
+ctx.imageSmoothingEnabled = false;
+let x = 10, y = 20;
+SP.sprites.names.forEach((n, i) => {
+  const img = SP.sprites.get(n);
+  ctx.fillStyle = '#ccc'; ctx.fillText(n, x, y - 6);
+  ctx.drawImage(img, x, y, img.width * 6, img.height * 6);
+  x += img.width * 6 + 14;
+  if (x > 1050) { x = 10; y += 32 * 6 + 24; }
+});
+// tamaño real x2
+y += 32*6 + 30; x = 10;
+SP.sprites.names.forEach(n => { const img = SP.sprites.get(n); ctx.drawImage(img, x, y, img.width*2, img.height*2); x += 56; });
+const hd = SP.sprites.head(); ctx.drawImage(hd, x, y, hd.width*2, hd.height*2);
+// bolas e items
+y += 90; x = 20;
+['red','blue','green','yellow','purple','orange','cyan','pink'].forEach((col,i)=>{ [40,27,14,7].forEach((r,j)=>{ const b = SP.gfx.ballImg(col,r); ctx.drawImage(b, x + j*95, y + i*0, b.lw, b.lh); }); y+=0; x+=0; });
+let gx = 420, gy = y;
+[27,14,7].forEach((r,j)=>{ const b = SP.gfx.gemImg('cyan', r); ctx.drawImage(b, gx + j*70, gy, b.lw, b.lh); });
+let ix = 20, iy = y + 100;
+SP.gfx.ITEM_IDS.forEach(id => { const im = SP.gfx.itemImg(id); ctx.drawImage(im, ix, iy, 56, 56); ix += 66; });
+SP.gfx.loaderBar(ctx, 20, iy + 80, 512, 33, 0.8);
+SP.gfx.cylBar(ctx, 560, iy + 80, 200, 16, 0.6, '#ffc81e');
+SP.gfx.button(ctx, 800, iy + 70, 200, 44, 'JUGAR', {hover:true});
+</script>
+</body></html>

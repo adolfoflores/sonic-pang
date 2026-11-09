@@ -1,0 +1,47 @@
+/* Hallmark · design-system: design.md · arcade · P5 H4 E4 S5 R5 V4 */
+@import url('./tokens.css?v=2.0.0');
+html, body { margin:0; height:100%; background:var(--game-ink); overflow-x:clip; }
+body {
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--game-font); color:var(--game-white);
+  -webkit-user-select:none; user-select:none; -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:transparent; touch-action:none;
+}
+#wrap { position:relative; display:flex; flex-direction:column; align-items:center; max-width:100%; }
+#stage { position:relative; background:var(--game-night); }
+canvas#game { display:block; background:var(--game-night); image-rendering:pixelated; cursor:default; }
+canvas#game:focus { outline:none; }
+canvas#game:focus-visible { outline:2px solid var(--game-yellow); outline-offset:2px; }
+#footer { margin:10px 8px 0; font-size:8px; line-height:1.7; text-align:center; color:var(--game-dim); }
+#touch { display:none; }
+body.is-touch[data-scene="play"] #touch { display:block; }
+body.is-touch #footer { display:none; }
+.tbtn {
+  appearance:none; -webkit-appearance:none; border:2px solid var(--game-line); border-radius:0;
+  color:var(--game-white); font:400 18px var(--game-font); background:var(--game-panel);
+  box-shadow:0 4px 0 var(--game-ink); touch-action:none; padding:0; margin:0;
+}
+.tbtn.on, .tbtn:active { background:var(--game-yellow); color:var(--game-ink); transform:translateY(2px); }
+.tbtn:focus-visible { outline:2px solid var(--game-yellow); outline-offset:3px; }
+.tfire { border-color:var(--game-red); font-size:12px; }
+.tboom { border-color:var(--game-yellow); color:var(--game-yellow); font-size:10px; }
+.tpause { position:fixed; top:max(10px,env(safe-area-inset-top)); right:max(10px,env(safe-area-inset-right)); width:44px; height:44px; font-size:14px; }
+.tpad { position:fixed; bottom:max(12px,env(safe-area-inset-bottom)); display:flex; gap:10px; align-items:flex-end; }
+.tleft { left:max(12px,env(safe-area-inset-left)); }
+.tright { right:max(12px,env(safe-area-inset-right)); }
+.tleft .tbtn { width:60px; height:60px; }
+.tfire { width:78px; height:78px; }
+.tboom { width:56px; height:56px; margin-bottom:24px; }
+@media (max-width:480px) { #footer { font-size:6px; max-width:280px; } }
+@media (orientation:portrait) {
+  body.is-touch { align-items:flex-start; }
+  body.is-touch #wrap { margin-top:max(8px,env(safe-area-inset-top)); }
+  .tpad { bottom:max(6vh,env(safe-area-inset-bottom)); gap:2.6vw; }
+  .tleft { left:3.5vw; }
+  .tright { right:3.5vw; }
+  .tleft .tbtn { width:19vw; height:19vw; max-width:96px; max-height:96px; min-width:44px; min-height:44px; }
+  .tfire { width:23vw; height:23vw; max-width:116px; max-height:116px; }
+  .tboom { width:15vw; height:15vw; min-width:44px; min-height:44px; max-width:74px; max-height:74px; margin-bottom:9vw; }
+  .tpause { top:calc(75vw + 22px); right:3.5vw; }
+}
+@media (prefers-reduced-motion:reduce) { .tbtn.on, .tbtn:active { transform:none; } }

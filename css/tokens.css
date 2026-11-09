@@ -1,0 +1,12 @@
+:root {
+  --game-night: #060b20;
+  --game-ink: #020612;
+  --game-panel: #0b1740;
+  --game-line: #263e78;
+  --game-white: #f5f7ff;
+  --game-yellow: #ffd23f;
+  --game-cyan: #8fc8ff;
+  --game-dim: #8e9cc5;
+  --game-red: #f63849;
+  --game-font: 'Press Start 2P', 'Courier New', monospace;
+}

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sonic Pang · revisión visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+body{margin:16px;background:#060b20;color:#f5f7ff;font:14px system-ui}header{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px}button,select{font:inherit;padding:10px}canvas{display:block;width:100%;image-rendering:pixelated}#single{max-width:768px;margin:auto}#gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px}figure{margin:0}figcaption{padding:8px 0;color:#8fc8ff}#status{color:#ffd23f}
+</style>
+<header><label>Pantalla <select id="scene"></select></label><button id="all">Revisar todas</button><button id="levels">Comprobar niveles</button><output id="status" aria-live="polite">Preparando…</output></header>
+<div id="single"><canvas id="sample" width="640" height="480"></canvas></div><div id="gallery"></div>
+<script src="../js/core.js?v=2.0.0"></script><script src="../js/input.js?v=2.0.0"></script><script src="../js/audio.js?v=2.0.0"></script><script src="../js/music.js?v=2.0.0"></script><script src="../js/gfx.js?v=2.0.0"></script><script src="../js/sprites.js?v=2.0.0"></script><script src="../js/backgrounds.js?v=2.0.0"></script><script src="../js/levels.js?v=2.0.0"></script><script src="../js/entities.js?v=2.0.0"></script><script src="../js/game.js?v=2.0.0"></script><script src="../js/scenes.js?v=2.0.1"></script>
+<script>
+// Banco visual independiente: nunca lee ni escribe los datos del jugador.
+SP.store.save = function () {};
+SP.store.data.unlocked = 6;
+SP.reduceMotion = false;
+SP.gfx.setScale(1); SP.sprites.build();
+SP.go = function (name, p) { SP.sceneName = name; SP.scenes[name].enter(p); };
+SP.fadeAction = function (fn) { fn(); };
+SP.setVolume = function () {};
+SP.audio.playSong = function () {};
+const cases = [
+ ['title','Inicio'], ['loader','Carga'], ['intro','Presentación'], ['story','Historia'], ['worldselect','Mundos'],
+ ['play','Partida'], ['pause','Pausa'], ['ready','Listo'], ['clear','Nivel superado'], ['timeup','Tiempo agotado'],
+ ['gameover','Fin de partida'], ['continue','Continuar'], ['endless','Sin fin'], ['disco','Bola Disco'], ['mimo','Gran Mimo'],
+ ['records','Récords'], ['nameentry','Nuevo récord'], ['howto','Controles'], ['bubbles','Burbujas'], ['items','Objetos'],
+ ['options','Opciones'], ['credits','Créditos'], ['ending','Historia final'], ['fin','Final']
+];
+const select = document.getElementById('scene'), status = document.getElementById('status');
+for (const [value,label] of cases) select.add(new Option(label,value));
+function renderCase(key,ctx) {
+ let name = key, p;
+ if (['pause','ready','clear','timeup','gameover','continue','endless','disco','mimo'].includes(key)) {name='play';p={mode:key==='endless'?'endless':'story',level:key==='disco'?24:key==='mimo'?29:0};}
+ if (['bubbles','items'].includes(key)) name='howto';
+ if (key==='nameentry') p={mode:'story',score:12500,stage:'1-2'};
+ if (key==='ending'||key==='fin') {name='ending';p={score:125000};}
+ SP.go(name,p);
+ const scene=SP.scenes[name]; scene.t=4;
+ if (key==='loader') {scene.p=1;scene.done=true;}
+ if (key==='intro') scene.t=1.3;
+ if (key==='story') scene.chars=999;
+ if (name==='play') {
+  const g=scene.game;g.state='play';g.stateT=2;g.score=3250;g.meter=.7;g.t=4;
+  g.balls.forEach(b=>{b.spawn=1;});
+  if (key==='pause') scene.pauseMenu();
+  if (['ready','clear','timeup'].includes(key)) g.state=key;
+  if (key==='clear') g.tally={given:2500,boss:false};
+  if (key==='gameover'||key==='continue') {scene.over={t:2,phase:'gameover',count:8};if(key==='continue')scene.updateOver(1);}
+ }
+ if (key==='bubbles') scene.page=1;
+ if (key==='items') scene.page=2;
+ if (key==='credits') scene.scroll=430;
+ if (key==='ending') {scene.i=1;scene.pt=4;}
+ if (key==='fin') {scene.phase='fin';scene.pt=2;}
+ if (key==='nameentry') scene.name='ADOLFO';
+ ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,640,480);ctx.imageSmoothingEnabled=false;ctx.globalAlpha=1;
+ scene.render(ctx);SP.gfx.scanlines(ctx);
+}
+function single(){document.getElementById('gallery').replaceChildren();document.getElementById('single').hidden=false;try{renderCase(select.value,document.getElementById('sample').getContext('2d'));status.textContent='Sin errores';}catch(e){status.textContent=e.message;console.error(e);}}
+select.onchange=single;
+document.getElementById('all').onclick=function(){
+ const gallery=document.getElementById('gallery');gallery.replaceChildren();document.getElementById('single').hidden=true;let errors=0;
+ for(const [key,label] of cases){const fig=document.createElement('figure'),canvas=document.createElement('canvas'),caption=document.createElement('figcaption');canvas.width=640;canvas.height=480;caption.textContent=label;canvas.setAttribute('aria-label',label);fig.append(caption,canvas);gallery.append(fig);try{renderCase(key,canvas.getContext('2d'));}catch(e){errors++;caption.textContent+=': '+e.message;console.error(e);}}
+ status.textContent=cases.length+' pantallas · '+errors+' errores';
+};
+document.fonts.ready.then(single);
+document.getElementById('levels').onclick=function(){
+ const canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;
+ const ctx=canvas.getContext('2d');let errors=0;
+ for(let level=0;level<SP.LEVELS.length;level++){
+  try{const game=new SP.Game({level,headless:true});game.state='play';game.balls.forEach(b=>{b.spawn=1;});game.render(ctx);}
+  catch(e){errors++;console.error('Nivel '+(level+1),e);}
+ }
+ status.textContent='30 niveles dibujados · '+errors+' errores';
+};
+</script>
+</html>

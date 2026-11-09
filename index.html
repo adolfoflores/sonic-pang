@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Sonic Pang · Edición arcade</title>
+<meta name="description" content="Sonic Pang — edición arcade. Revienta burbujas. Rompe récords.">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23f63849' d='M5 1h6v2h2v2h2v6h-2v2h-2v2H5v-2H3v-2H1V5h2V3h2z'/%3E%3Cpath fill='%23fff' d='M4 4h4v3H4z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=2.0.0">
+</head>
+<body>
+<div id="wrap">
+  <div id="stage">
+    <canvas id="game" width="640" height="480" tabindex="0" aria-label="Sonic Pang"></canvas>
+  </div>
+  <div id="touch" aria-label="Controles táctiles">
+    <div class="tpad tleft">
+      <button class="tbtn" data-key="T_LEFT" aria-label="Mover a la izquierda">&#9664;</button>
+      <button class="tbtn" data-key="T_RIGHT" aria-label="Mover a la derecha">&#9654;</button>
+    </div>
+    <div class="tpad tright">
+      <button class="tbtn tboom" data-key="T_BOOM" aria-label="Boom sónico">BOOM</button>
+      <button class="tbtn tfire" data-key="T_FIRE" aria-label="Disparar">FUEGO</button>
+    </div>
+    <button class="tbtn tpause" data-key="T_PAUSE" aria-label="Pausa">II</button>
+  </div>
+  <div id="footer">M: MÚSICA &middot; F: PANTALLA COMPLETA</div>
+</div>
+<noscript><p style="color:#fff;text-align:center">Sonic Pang necesita JavaScript activado.</p></noscript>
+<script src="js/core.js?v=2.0.0"></script>
+<script src="js/input.js?v=2.0.0"></script>
+<script src="js/audio.js?v=2.0.0"></script>
+<script src="js/music.js?v=2.0.0"></script>
+<script src="js/gfx.js?v=2.0.0"></script>
+<script src="js/sprites.js?v=2.0.0"></script>
+<script src="js/backgrounds.js?v=2.0.0"></script>
+<script src="js/levels.js?v=2.0.0"></script>
+<script src="js/entities.js?v=2.0.0"></script>
+<script src="js/game.js?v=2.0.0"></script>
+<script src="js/scenes.js?v=2.0.1"></script>
+<script src="js/main.js?v=2.0.0"></script>
+</body>
+</html>

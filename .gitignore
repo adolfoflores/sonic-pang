@@ -1,0 +1,29 @@
+# Operating systems
+.DS_Store
+._*
+Thumbs.db
+
+# Local editors and assistant settings
+.idea/
+.vscode/
+.claude/
+.codex/
+*.swp
+*.swo
+*~
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated files and local test output
+__pycache__/
+*.py[cod]
+node_modules/
+coverage/
+playwright-report/
+test-results/
+*.log
